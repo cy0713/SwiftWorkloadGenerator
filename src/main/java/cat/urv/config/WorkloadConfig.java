@@ -11,9 +11,10 @@ public class WorkloadConfig {
 	public static final String container = "data";
 	
 	//Point to the directory where the input workload trace is
-	public static final String inputWorkloadTrace = "/media/raul/Data/Documentos/Recerca/Publicaciones/2016/2016-middleware-iostack/datasets/Zeus_Documents/sorted.csv";
-	public static final String startTracePoint = "2015-09-09 10:00:00.000";
-	public static final String endTracePoint = "2015-09-09 10:00:59.000";
+	public static final String inputWorkloadTrace = "/media/raul/Data/Documentos/Recerca/Publicaciones/2016/2016-middleware-iostack/datasets/arctur.csv";
+			//Zeus_Documents/sorted.csv";
+	public static final String startTracePoint = "2016-01-11 14:31:38"; //"2015-09-09 10:00:00.000";
+	public static final String endTracePoint = "2016-01-11 14:32:38"; // "2015-09-09 10:00:59.000";
 			
 	//Point to the dataset characterizations directory
 	public static final String datasetCharacterizationsDir = "/media/raul/Data/Documentos/Recerca/Proyectos/IOStack/Code/WorkloadGen/characterizations/";
