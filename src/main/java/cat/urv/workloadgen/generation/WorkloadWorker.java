@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
@@ -106,12 +107,19 @@ public class WorkloadWorker implements Runnable{
 
 	private String getAnObjectIdForDownload(String objectId) {
 		if (!allUploadedFiles.contains(objectId)) {
-			objectId = null;
-			Iterator<String> objectIdIterator = allUploadedFiles.iterator();
-			while (objectIdIterator.hasNext()){
-				objectId = objectIdIterator.next();
-				break;
+			int size = allUploadedFiles.size();
+			int randomElement = new Random().nextInt(size); // In real life, the Random object should be rather more shared than this
+			int i = 0;
+			for(String obj : allUploadedFiles){
+			    if (i == randomElement) return obj;
+			    i = i + 1;
 			}
+			//objectId = null;
+			//Iterator<String> objectIdIterator = allUploadedFiles.iterator();
+			//while (objectIdIterator.hasNext()){
+			//	objectId = objectIdIterator.next();
+			//	break;
+			//}
 		}
 		return objectId;
 	}
