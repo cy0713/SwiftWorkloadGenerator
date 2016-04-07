@@ -4,11 +4,11 @@ public class WorkloadConfig {
 	
 	
 	//Swift configuration
-	public static final String tenant = "";
-	public static final String user = "";
-	public static final String password = "";
-	public static final String authURL = "";
-	public static final String container = "";
+	public static final String tenant = "josep";
+	public static final String user = "josep";
+	public static final String password = "jsampe1";
+	public static final String authURL = "http://192.168.2.1:5000/v2.0/tokens";
+	public static final String container = "c1";
 	
 	//Point to the directory where the input workload trace is
 	public static final String inputWorkloadTrace = "";

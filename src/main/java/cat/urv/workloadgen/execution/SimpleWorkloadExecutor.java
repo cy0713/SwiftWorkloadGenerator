@@ -14,7 +14,7 @@ public class SimpleWorkloadExecutor extends WorkloadExecutor {
 	
 	static int BLOCK_SIZE = 32*1024*1024;
 	
-	static int INITIAL_PUTS = 5;
+	static int INITIAL_PUTS = 20;
 	
 	static int READS = 50;
 	
@@ -54,7 +54,7 @@ public class SimpleWorkloadExecutor extends WorkloadExecutor {
 			t.setOperationType(OperationType.READ);
 			pool.ingestJob(t);
 			try {
-				Thread.sleep(100);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
