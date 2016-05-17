@@ -6,7 +6,7 @@ public class WorkloadTask {
 	
 	public enum OperationType {WRITE, READ};
 	
-	private Long id = 0L;
+	private String id = "0";
 	
 	private OperationType operationType = OperationType.WRITE;
 	
@@ -42,11 +42,11 @@ public class WorkloadTask {
 		this.dataType = dataType;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

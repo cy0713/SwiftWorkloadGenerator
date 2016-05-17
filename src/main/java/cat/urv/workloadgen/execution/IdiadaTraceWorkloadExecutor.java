@@ -1,6 +1,8 @@
 package cat.urv.workloadgen.execution;
 
-import static cat.urv.config.WorkloadConfig.*;
+import static cat.urv.config.WorkloadConfig.endTracePoint;
+import static cat.urv.config.WorkloadConfig.inputWorkloadTrace;
+import static cat.urv.config.WorkloadConfig.startTracePoint;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -32,7 +34,7 @@ public class IdiadaTraceWorkloadExecutor extends TraceBasedWorkloadExecutor {
 					System.out.println(line);
 					WorkloadTask task = new WorkloadTask();
 					//Set id to the data object being managed
-					task.setId(new Long(parts[2]));
+					String objectId = parts[2];
 					//Set operation type
 					if (parts[1].equals("READ")){
 						task.setOperationType(OperationType.READ);
@@ -40,7 +42,14 @@ public class IdiadaTraceWorkloadExecutor extends TraceBasedWorkloadExecutor {
 						task.setOperationType(OperationType.WRITE);
 					}else System.err.println("Unkown operation!: " + parts[2]);
 					//Set data type for generation
-					task.setDataType(DataTypes.DOCS);
+					if (docExtensions.contains(parts[3])){
+						task.setDataType(DataTypes.DOCS);
+						objectId+=".txt";
+					}else{
+						task.setDataType(DataTypes.PICS);
+						objectId+=".jpg";
+					}
+					task.setId(objectId);
 					//Set the size of the data object
 					task.setSize(new Integer(parts[5]));
 					task.setExpectedWaitingTime(millis-currentExecutionTimeMillis);

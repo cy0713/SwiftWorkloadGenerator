@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Random;
 
 import cat.urv.data.DataTypes;
 import cat.urv.workloadgen.generation.WorkloadTask;
@@ -25,7 +26,7 @@ public class ArcturTraceWorkloadExecutor extends TraceBasedWorkloadExecutor {
 			long initialDateMillis = format.parse(startTracePoint).getTime();
 			long finalDateMillis = format.parse(endTracePoint).getTime();
 			long currentExecutionTimeMillis = initialDateMillis;
-			//"site100","2016-01-11 14:31:38","GET","2015060113590218"
+			//"site100","2016-01-11 14:31:38","GET","2015060113590218", mime, extension
 			while ((line = br.readLine()) != null) {
 				line = line.replace("\"", "");
 				String[] parts = line.split(",");
@@ -35,25 +36,32 @@ public class ArcturTraceWorkloadExecutor extends TraceBasedWorkloadExecutor {
 				if (millis>=initialDateMillis && millis<=finalDateMillis){
 					System.out.println(line);
 					WorkloadTask task = new WorkloadTask();
-					//Set id to the data object being managed
-					task.setId(new Long(parts[3]));
 					//Set operation type
-					if (parts[2].equals("GET")){
+					//FIXME: Arctur traces are write only, but we need to do some writes also to correctly execute the workload
+					if (parts[2].equals("GET") & new Random().nextFloat() < 0.95){
 						task.setOperationType(OperationType.READ);
-					}else if (parts[2].equals("PUT")){
+					}else{
 						task.setOperationType(OperationType.WRITE);
-					}else System.err.println("Unkown operation!: " + parts[2]);
-					//Set data type for generation
-					task.setDataType(DataTypes.DOCS);
+					}
+					String objectId = parts[3];
+					if (docExtensions.contains(parts[6])){
+						task.setDataType(DataTypes.DOCS);
+						objectId += ".txt";
+					}else{
+						task.setDataType(DataTypes.PICS);
+						objectId += ".jpg";
+					}
+					//Set id to the data object being managed with the appropriate extension
+					task.setId(objectId);					
 					//Set the size of the data object
-					task.setSize(1024*128);
+					task.setSize(Integer.parseInt(parts[4]));
 					task.setExpectedWaitingTime(millis-currentExecutionTimeMillis);
 					task.setActualWaitingTime(System.currentTimeMillis());
 					//Wait before executing the operation
 					System.out.println("Waiting for execute operation: " + (millis-currentExecutionTimeMillis) + " milliseconds");
 					Thread.sleep(millis-currentExecutionTimeMillis);
 					//Send the task for execution
-					pool.ingestJob(task);
+					//pool.ingestJob(task);
 					currentExecutionTimeMillis = millis;
 				}
 			}

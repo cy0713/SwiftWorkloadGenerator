@@ -60,14 +60,14 @@ public class WorkloadWorker implements Runnable{
 			//Track the time spent on uploading the file
 			long uploadStartTimeMillis = System.currentTimeMillis();
 			t.setActualWaitingTime(System.currentTimeMillis()-t.getActualWaitingTime());
-			boolean failed = api.putObject(myContainer, t.getId().toString(), fileContents);
+			boolean failed = api.putObject(myContainer, t.getId(), fileContents);
 			long uploadEndTimeMillis = System.currentTimeMillis();
 			//Log the result of this file operation
 			OperationResult operationResult = new OperationResult(t.getSize(), t.getOperationType(),
 					t.getDataType(), uploadStartTimeMillis, uploadEndTimeMillis, failed);
 			statisticsManager.logOperationResult(operationResult);
 			//Print some debug info
-			System.out.println(">>UPLOADING File: " + t.getId().toString() + "\n" +
+			System.out.println(">>UPLOADING File: " + t.getId() + "\n" +
 					"File Size (MBytes): " + t.getSize()/(1024.0*1024.0) + "\n" +
 					"Transfer Time (Seconds): " + (uploadEndTimeMillis-uploadStartTimeMillis)/1000.0 + "\n" +
 					"Throughput (MBytes/sec.): " + (t.getSize()/(1024.0*1024.0))/((uploadEndTimeMillis-uploadStartTimeMillis)/1000.0) + "\n" +
@@ -75,11 +75,11 @@ public class WorkloadWorker implements Runnable{
 					"Actual vs Expected Waiting Time: " + t.getExpectedWaitingTime() + " vs " + t.getActualWaitingTime() + "-> " + 
 					(t.getActualWaitingTime() - t.getExpectedWaitingTime()));
 			//Add the id of this uploaded file to the index, for future downloads
-			allUploadedFiles.add(t.getId().toString());
+			allUploadedFiles.add(t.getId());
 			break;		
 		case READ:	
 			UUID uuid = UUID.randomUUID();
-			String objectId = getAnObjectIdForDownload(t.getId().toString());			
+			String objectId = getAnObjectIdForDownload(t.getId());			
 			if (objectId!=null) {	
 				long downloadStartTimeMillis = System.currentTimeMillis();
 				t.setActualWaitingTime(System.currentTimeMillis()-t.getActualWaitingTime());

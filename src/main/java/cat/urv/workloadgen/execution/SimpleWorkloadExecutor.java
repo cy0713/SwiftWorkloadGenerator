@@ -27,7 +27,7 @@ public class SimpleWorkloadExecutor extends WorkloadExecutor {
 		for (int i = 0; i<INITIAL_PUTS; i++){
 			WorkloadTask t = new WorkloadTask();
 			t.setDataType(DataTypes.DOCS);
-			t.setId(new Random().nextLong());
+			t.setId(String.valueOf(new Random().nextLong()));
 			t.setOperationType(OperationType.WRITE);
 			t.setSize(BLOCK_SIZE);
 			pool.ingestJob(t);
@@ -50,7 +50,7 @@ public class SimpleWorkloadExecutor extends WorkloadExecutor {
 		for (int i = 0; i<READS; i++){
 			WorkloadTask t = new WorkloadTask();
 			t.setDataType(DataTypes.DOCS);
-			t.setId(new Random().nextLong());
+			t.setId(String.valueOf(new Random().nextLong()));
 			t.setOperationType(OperationType.READ);
 			pool.ingestJob(t);
 			try {

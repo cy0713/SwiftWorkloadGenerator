@@ -23,7 +23,7 @@ public class SinusoidalWorkloadExecutor extends WorkloadExecutor{
 			for (int j=0; j<requestsPerSecond; j++) {
 				WorkloadTask t = new WorkloadTask();
 				t.setDataType(DataTypes.DOCS);
-				t.setId(new Random().nextLong());
+				t.setId(String.valueOf(new Random().nextLong()));
 				if (j%2==0){
 					t.setOperationType(OperationType.WRITE);
 					t.setSize(128*1024);
