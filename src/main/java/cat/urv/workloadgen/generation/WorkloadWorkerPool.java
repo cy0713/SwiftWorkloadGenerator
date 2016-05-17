@@ -13,9 +13,9 @@ import org.javaswift.joss.model.Container;
 
 public class WorkloadWorkerPool {
 	
-	private static final int parallelsm = 8;
+	private static final int parallelsm = 16;
 	
-	private BlockingQueue<WorkloadTask> taskQueue = new ArrayBlockingQueue<WorkloadTask>(parallelsm*10);
+	private BlockingQueue<WorkloadTask> taskQueue = new ArrayBlockingQueue<WorkloadTask>(parallelsm*100);
 	private List<WorkloadWorker> workers = new ArrayList<WorkloadWorker>();
 	private ExecutorService threadPool = Executors.newFixedThreadPool(parallelsm);
 	
@@ -36,6 +36,7 @@ public class WorkloadWorkerPool {
 	}
 	
 	public void ingestJob(WorkloadTask task) {
+		System.out.println("Queued tasks: " + taskQueue.size());
 		taskQueue.add(task);
 	}
 	
