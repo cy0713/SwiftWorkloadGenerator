@@ -16,6 +16,8 @@ import cat.urv.workloadgen.generation.WorkloadTask;
 import cat.urv.workloadgen.generation.WorkloadTask.OperationType;
 
 public class ArcturTraceWorkloadExecutor extends TraceBasedWorkloadExecutor {
+	
+	int GENERATOR_INDEX = 0;
 
 	@Override
 	public void replayTrace() {
@@ -30,8 +32,8 @@ public class ArcturTraceWorkloadExecutor extends TraceBasedWorkloadExecutor {
 			while ((line = br.readLine()) != null) {
 				line = line.replace("\"", "");
 				String[] parts = line.split(",");
+				if ((Long.parseLong(parts[3]) % 2)==GENERATOR_INDEX) continue;
 				long millis = -1;
-				if (!parts[0].equals("site100")) break;
 				millis = format.parse(parts[1]).getTime();
 				if (millis>=initialDateMillis && millis<=finalDateMillis){
 					System.out.println(line);
@@ -61,7 +63,7 @@ public class ArcturTraceWorkloadExecutor extends TraceBasedWorkloadExecutor {
 					System.out.println("Waiting for execute operation: " + (millis-currentExecutionTimeMillis) + " milliseconds");
 					Thread.sleep(millis-currentExecutionTimeMillis);
 					//Send the task for execution
-					//pool.ingestJob(task);
+					pool.ingestJob(task);
 					currentExecutionTimeMillis = millis;
 				}
 			}
