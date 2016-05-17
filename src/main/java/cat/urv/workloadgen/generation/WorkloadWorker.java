@@ -150,7 +150,8 @@ public class WorkloadWorker implements Runnable{
 		try {			
 	        //Fill the file with the appropriate contents
 	        while (currentSize < fileSize) {
-	        	toWrite = dataGenerator.getDataChunkByType(dataType);
+	        	toWrite = new byte[32*1024]; //dataGenerator.getDataChunkByType(dataType);
+			Arrays.fill(toWrite, (byte)0);
 				if (currentSize + toWrite.length > fileSize){
 					data.write(Arrays.copyOfRange(toWrite, 0, fileSize - currentSize));
 				}else data.write(toWrite);
