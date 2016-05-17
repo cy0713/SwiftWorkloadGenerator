@@ -40,7 +40,7 @@ public class ArcturTraceWorkloadExecutor extends TraceBasedWorkloadExecutor {
 					WorkloadTask task = new WorkloadTask();
 					//Set operation type
 					//FIXME: Arctur traces are write only, but we need to do some writes also to correctly execute the workload
-					if (parts[2].equals("GET") & new Random().nextFloat() < 0.95){
+					if (parts[2].equals("GET") && new Random().nextFloat() < 0.95){
 						task.setOperationType(OperationType.READ);
 					}else{
 						task.setOperationType(OperationType.WRITE);
