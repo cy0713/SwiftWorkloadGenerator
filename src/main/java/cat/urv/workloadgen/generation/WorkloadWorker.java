@@ -106,20 +106,15 @@ public class WorkloadWorker implements Runnable{
 	}
 
 	private String getAnObjectIdForDownload(String objectId) {
-		if (!allUploadedFiles.contains(objectId) && allUploadedFiles.size() > 0) {
+		if (!allUploadedFiles.contains(objectId)) objectId = null;
+		if (objectId == null && allUploadedFiles.size() > 0) {
 			int size = allUploadedFiles.size();
 			int randomElement = new Random().nextInt(size); // In real life, the Random object should be rather more shared than this
 			int i = 0;
 			for(String obj : allUploadedFiles){
 			    if (i == randomElement) return obj;
 			    i = i + 1;
-			}
-			//objectId = null;
-			//Iterator<String> objectIdIterator = allUploadedFiles.iterator();
-			//while (objectIdIterator.hasNext()){
-			//	objectId = objectIdIterator.next();
-			//	break;
-			//}
+			}			
 		}
 		return objectId;
 	}
