@@ -24,11 +24,11 @@ public class ArcturTraceWorkloadExecutor extends TraceBasedWorkloadExecutor {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(inputWorkloadTrace));
 			String line;
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 			long initialDateMillis = format.parse(startTracePoint).getTime();
 			long finalDateMillis = format.parse(endTracePoint).getTime();
 			long currentExecutionTimeMillis = initialDateMillis;
-			//"site100","2016-01-11 14:31:38","GET","2015060113590218", mime, extension
+			//"site100","2016-01-11 14:31:38.000","GET","2015060113590218", mime, extension
 			while ((line = br.readLine()) != null) {
 				line = line.replace("\"", "");
 				String[] parts = line.split(",");
