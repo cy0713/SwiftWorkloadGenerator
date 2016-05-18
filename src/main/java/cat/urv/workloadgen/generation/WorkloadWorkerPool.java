@@ -13,11 +13,11 @@ import org.javaswift.joss.model.Container;
 
 public class WorkloadWorkerPool {
 	
-	private static final int parallelism = 4;
+	private static final int parallelism = 1;
 	
 	private ArrayList<ArrayBlockingQueue<WorkloadTask>> taskQueues = new ArrayList<ArrayBlockingQueue<WorkloadTask>>();
 	private List<WorkloadWorker> workers = new ArrayList<WorkloadWorker>();
-	private ExecutorService threadPool = Executors.newFixedThreadPool(parallelism);
+	//private ExecutorService threadPool = Executors.newFixedThreadPool(parallelism);
 	
 	//If we ask for downloading a non-uploaded, we get a random one from here
 	private Set<String> uploadedFiles = new LinkedHashSet<String>();
@@ -32,8 +32,10 @@ public class WorkloadWorkerPool {
 			ArrayBlockingQueue<WorkloadTask> taskQueue = new ArrayBlockingQueue<WorkloadTask>(parallelism*10);
 			taskQueues.add(taskQueue);
 			WorkloadWorker worker = new WorkloadWorker(taskQueue, uploadedFiles, container);
+			Thread t = new Thread(worker);
 			workers.add(worker);
-			threadPool.execute(worker);
+			t.start();
+			//threadPool.execute(worker);
 		}
 	}
 	
@@ -60,7 +62,7 @@ public class WorkloadWorkerPool {
 		for (int i=0; i<parallelism; i++)
 			taskQueues.get(i).clear();		
 		System.out.println("Tearing down pool...");
-		threadPool.shutdown();
+		//threadPool.shutdown();
 	}
 
 }
